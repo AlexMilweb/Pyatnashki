@@ -1,13 +1,13 @@
-import {forEach} from 'ramda';
 import bindEvent from '../../scripts/util/event/bindEvent';
+import forEach from '../../scripts/util/array/forEach';
 
-// selectors
+// Объект с классами и идентификаторами
 const selectors = {
 	startGame: '#startGame',
 	itemArea: '.area__item'
 };
 
-// definition
+// Селекторы
 const allItemArea = document.querySelectorAll(selectors.itemArea);
 
 // functions
@@ -16,7 +16,7 @@ const random = (min, max) => {
 };
 
 const createRandomArr = number => {
-	const arr = [];
+	let arr = [];
 	let randInt;
 
 	for (let i = 1; i <= number; i++) {
@@ -64,35 +64,36 @@ const matrixGen = (row, col, arr) => {
 	return arrMain;
 };
 
-const areaGenerate = (areaItems, numberCells) => {
-	const areaArr = createRandomArr(numberCells);
-	console.log(areaArr);
-	console.log(matrixGen(4, 4, areaArr), 'передан массив');
+getValuesAroundEmpty - возвращает массив из доступных для перемещения пятнашек
+const getValuesAroundEmpty = matrix => {
+};
 
-	forEach((item, i) => {
-		item.setAttribute('data-val', areaArr[i]);
-		item.innerHTML = areaArr[i];
+const areaGenerate = (areaItems, arr) => {
+	forEach(areaItems, (item, i) => {
+		item.setAttribute('data-val', arr[i]);
+		item.innerHTML = arr[i];
 
 		if (i === 15) {
 			item.setAttribute('data-val', 'empty');
 			item.innerHTML = '';
 		}
-	}, areaItems);
+	});
 };
 
-
-const gameProcess = () => {
-	console.log(matrixGen(4, 4, 'validate'), 'валидация');
-	console.log(matrixGen(4, 4), 'пустой');
+const gameProcess = arrArea => {
+	const matrix = matrixGen(4, 4, arrArea);
+	const activeItems = getValuesAroundEmpty()
 };
 
+// Запуск игровой логики при клике на кнопку "Start Game"
 const startLogic = () => {
-	areaGenerate(allItemArea, 15);
-	gameProcess();
+	let areaArr = createRandomArr(15);
+	areaGenerate(allItemArea, areaArr);
+	gameProcess(areaArr);
 };
 
-// events
+// События
 const onClickStartGame = () => bindEvent(selectors.startGame, 'click', startLogic);
 
-// init
+// Инициализация событий
 onClickStartGame();
