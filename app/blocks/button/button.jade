@@ -1,0 +1,5 @@
+mixin button(data)
+	- data = data || {};
+	+b('button').button(
+		id= data.id
+	) #{data.text}

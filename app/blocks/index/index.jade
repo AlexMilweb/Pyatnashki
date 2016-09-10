@@ -1,0 +1,11 @@
+include ../area/area
+include ../button/button
+
+mixin index()
+	+b.index
+		+area()
+		+e.options
+			+button({
+				id: 'startGame',
+				text: 'Start Game'
+			})
