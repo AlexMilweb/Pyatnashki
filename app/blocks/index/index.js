@@ -4,6 +4,7 @@ import forEach from '../../scripts/util/array/forEach';
 
 // Объект с классами и идентификаторами
 const selectors = {
+	area: '#area',
 	startGame: '#startGame',
 	itemArea: '.area__item',
 	empty: 'area__item_empty',
@@ -12,6 +13,7 @@ const selectors = {
 
 // Селекторы
 const allItemArea = document.querySelectorAll(selectors.itemArea);
+const area = document.querySelector(selectors.area);
 
 // functions
 const random = (min, max) => {
@@ -37,12 +39,12 @@ const createRandomArr = number => {
 ---- matrixGen ----
 row - количество строк матрицы;
 col - количество столбцов матрицы;
-arr:
+option:
 	undefined - вернет пустую матрицу;
 	'validate' - вернет заполненную матрицу с числовыми значениями по порядку в сооответствии с количеством ячеек, последняя будет 'empty';
 	Array - передать одномерный массив, для преобразования в матрицу;
 */
-const matrixGen = (row, col, arr) => {
+const matrixGen = (row, col, option) => {
 	const arrMain = [];
 	const numberCells = row * col;
 
@@ -51,12 +53,12 @@ const matrixGen = (row, col, arr) => {
 
 		for (let j = 1; j <= row; j++) {
 
-			if (arr === 'validate' && j + i * row !== numberCells) {
+			if (option === 'validate' && j + i * row !== numberCells) {
 				rowArr.push(j + i * row);
-			} else if (arr === undefined) {
+			} else if (option === undefined) {
 				rowArr.push('');
 			} else if (j + i * row !== numberCells) {
-				rowArr.push(arr[j + i * row - 1]);
+				rowArr.push(option[j + i * row - 1]);
 			} else {
 				rowArr.push('empty');
 			}
@@ -96,13 +98,6 @@ const getValuesAroundEmpty = matrix => {
 		arr.push(matrix[row + 1][col]);
 	}
 	return arr;
-};
-
-// addEventForActiveItems - получает массив пятнашек доступных для перемещения и вешает на них callback;
-const addEventItems = (colectionItems, callback) => {
-	forEach(colectionItems, item => {
-		item.addEventListener('click', callback);
-	});
 };
 
 // Замена значения target элемента на empty, а empty на target;
@@ -179,8 +174,8 @@ const gameProcess = (matrix, colectionItems) => {
 	const activeItems = getValuesAroundEmpty(matrix);
 	addActiveItems(activeItems, selectors.activeItem);
 
-	addEventItems(colectionItems, item => {
-		const target = item.currentTarget;
+	const gameProcessEvent = item => {
+		const target = item.target;
 
 		replaceTargetOnEmpty(target, matrix);
 		itemMove(target);
@@ -188,9 +183,11 @@ const gameProcess = (matrix, colectionItems) => {
 
 		const items = getValuesAroundEmpty(matrix);
 		addActiveItems(items, selectors.activeItem);
+		console.log(matrix)
+	};
 
-	});
-	console.log(colectionItems)
+	area.removeEventListener('click', gameProcessEvent);
+	area.addEventListener('click', gameProcessEvent);
 };
 
 // Запуск игровой логики при клике на кнопку "Start Game"
@@ -200,6 +197,7 @@ const startLogic = () => {
 	areaGenerate(allItemArea, areaArr);
 	resetGameArea(selectors.empty, selectors.itemArea);
 	gameProcess(matrix, allItemArea);
+	console.log(matrix)
 };
 
 // События
