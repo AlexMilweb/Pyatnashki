@@ -74,7 +74,7 @@ const getValuesAroundEmpty = matrix => {
 	let row;
 	let col;
 	let matrixWidth;
-	let arr = [];
+	const arr = [];
 
 	matrix.forEach((rowMatrix, i) => {
 		const emptyId = rowMatrix.indexOf('empty');
@@ -109,7 +109,7 @@ const replaceTargetOnEmpty = (target, matrix) => {
 	matrix.forEach((item, i) => {
 		if (item.indexOf('empty') !== -1) {
 			row = i;
-			col = item.indexOf('empty')
+			col = item.indexOf('empty');
 		}
 	});
 
@@ -170,21 +170,22 @@ const resetGameArea = (emptySelector, selectorItem) => {
 	lastItem.classList.add(emptySelector);
 };
 
-const gameProcess = (matrix, colectionItems) => {
+let matrixSave;
+
+const gameProcessEvent = item => {
+	const target = item.target;
+
+	replaceTargetOnEmpty(target, matrixSave);
+	itemMove(target);
+	removeActiveItems(selectors.itemArea, selectors.activeItem);
+
+	const items = getValuesAroundEmpty(matrixSave);
+	addActiveItems(items, selectors.activeItem);
+};
+
+const gameProcess = matrix => {
 	const activeItems = getValuesAroundEmpty(matrix);
 	addActiveItems(activeItems, selectors.activeItem);
-
-	const gameProcessEvent = item => {
-		const target = item.target;
-
-		replaceTargetOnEmpty(target, matrix);
-		itemMove(target);
-		removeActiveItems(selectors.itemArea, selectors.activeItem);
-
-		const items = getValuesAroundEmpty(matrix);
-		addActiveItems(items, selectors.activeItem);
-		console.log(matrix)
-	};
 
 	area.removeEventListener('click', gameProcessEvent);
 	area.addEventListener('click', gameProcessEvent);
@@ -196,8 +197,9 @@ const startLogic = () => {
 	const matrix = matrixGen(4, 4, areaArr);
 	areaGenerate(allItemArea, areaArr);
 	resetGameArea(selectors.empty, selectors.itemArea);
-	gameProcess(matrix, allItemArea);
-	console.log(matrix)
+	gameProcess(matrix);
+
+	matrixSave = matrix;
 };
 
 // События
