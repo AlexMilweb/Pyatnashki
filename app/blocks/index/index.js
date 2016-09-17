@@ -4,9 +4,10 @@ import forEach from '../../scripts/util/array/forEach';
 
 // Объект с классами и идентификаторами
 const selectors = {
-	area: '#area',
-	startGame: '#startGame',
-	itemArea: '.area__item',
+	area: '.js-area',
+	startGame: '.js-start-game',
+	itemArea: '.js-item',
+	counter: '.js-counter',
 	empty: 'area__item_empty',
 	activeItem: 'area__item_active'
 };
@@ -14,6 +15,7 @@ const selectors = {
 // Селекторы
 const allItemArea = document.querySelectorAll(selectors.itemArea);
 const area = document.querySelector(selectors.area);
+const counter = document.querySelector(selectors.counter);
 
 // functions
 const random = (min, max) => {
@@ -170,22 +172,35 @@ const resetGameArea = (emptySelector, selectorItem) => {
 	lastItem.classList.add(emptySelector);
 };
 
-let matrixSave;
+const globalState = {
+	matrix: [],
+	counter: 0
+};
+
+const viewCounter = (selector, number) => {
+	const addStep = number + 1;
+
+	selector.innerHTML = addStep;
+	return addStep;
+};
 
 const gameProcessEvent = item => {
 	const target = item.target;
 
-	replaceTargetOnEmpty(target, matrixSave);
+	replaceTargetOnEmpty(target, globalState.matrix);
 	itemMove(target);
 	removeActiveItems(selectors.itemArea, selectors.activeItem);
 
-	const items = getValuesAroundEmpty(matrixSave);
+	const items = getValuesAroundEmpty(globalState.matrix);
 	addActiveItems(items, selectors.activeItem);
+
+	globalState.counter = viewCounter(counter, globalState.counter);
 };
 
 const gameProcess = matrix => {
 	const activeItems = getValuesAroundEmpty(matrix);
 	addActiveItems(activeItems, selectors.activeItem);
+	globalState.counter = 0;
 
 	area.removeEventListener('click', gameProcessEvent);
 	area.addEventListener('click', gameProcessEvent);
@@ -199,7 +214,7 @@ const startLogic = () => {
 	resetGameArea(selectors.empty, selectors.itemArea);
 	gameProcess(matrix);
 
-	matrixSave = matrix;
+	globalState.matrix = matrix;
 };
 
 // События

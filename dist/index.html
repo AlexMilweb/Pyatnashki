@@ -20,35 +20,39 @@
 		<title>Pyatnashki</title>
 		<meta name="description" content="">
 		<meta name="keywords" content="">
-		<link href="assets/styles/app.min.css?t=1474005897059" rel="stylesheet">
+		<link href="assets/styles/app.min.css?t=1474105153284" rel="stylesheet">
 	</head>
 
 	<body class="page">
 		<div class="index">
-			<div class="index__game-info">ПЯТНАШКИ v0.2 preAlfa</div>
+			<div class="index__game-info">ПЯТНАШКИ v0.3a</div>
 			<div class="area">
-				<div id="area" class="area__wrap">
-					<div id="1" data-val='1' class="area__item">1</div>
-					<div id="2" data-val='2' class="area__item">2</div>
-					<div id="3" data-val='3' class="area__item">3</div>
-					<div id="4" data-val='4' class="area__item">4</div>
-					<div id="5" data-val='5' class="area__item">5</div>
-					<div id="6" data-val='6' class="area__item">6</div>
-					<div id="7" data-val='7' class="area__item">7</div>
-					<div id="8" data-val='8' class="area__item">8</div>
-					<div id="9" data-val='9' class="area__item">9</div>
-					<div id="10" data-val='10' class="area__item">10</div>
-					<div id="11" data-val='11' class="area__item">11</div>
-					<div id="12" data-val='12' class="area__item">12</div>
-					<div id="13" data-val='13' class="area__item">13</div>
-					<div id="14" data-val='14' class="area__item">14</div>
-					<div id="15" data-val='15' class="area__item">15</div>
-					<div id="16" data-val='16' class="area__item area__item_empty"></div>
+				<div class="area__wrap js-area">
+					<div id="1" data-val='1' class="area__item js-item">1</div>
+					<div id="2" data-val='2' class="area__item js-item">2</div>
+					<div id="3" data-val='3' class="area__item js-item">3</div>
+					<div id="4" data-val='4' class="area__item js-item">4</div>
+					<div id="5" data-val='5' class="area__item js-item">5</div>
+					<div id="6" data-val='6' class="area__item js-item">6</div>
+					<div id="7" data-val='7' class="area__item js-item">7</div>
+					<div id="8" data-val='8' class="area__item js-item">8</div>
+					<div id="9" data-val='9' class="area__item js-item">9</div>
+					<div id="10" data-val='10' class="area__item js-item">10</div>
+					<div id="11" data-val='11' class="area__item js-item">11</div>
+					<div id="12" data-val='12' class="area__item js-item">12</div>
+					<div id="13" data-val='13' class="area__item js-item">13</div>
+					<div id="14" data-val='14' class="area__item js-item">14</div>
+					<div id="15" data-val='15' class="area__item js-item">15</div>
+					<div id="16" data-val='16' class="area__item area__item_empty js-item"></div>
 				</div>
 				<div class="area__blocking"></div>
 			</div>
 			<div class="index__options">
-				<button id="startGame" class="button">Start Game</button>
+				<button id="startGame" class="button js-start-game">Start Game</button>
+				<div class="index__wraper">
+					<div class="index__timer js-timer">00:00</div>
+					<div class="index__counter js-counter">0</div>
+				</div>
 			</div>
 		</div>
 		<script src="assets/scripts/app.min.js"></script>

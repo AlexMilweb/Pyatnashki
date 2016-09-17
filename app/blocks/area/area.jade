@@ -1,14 +1,13 @@
 mixin area()
 	+b.area
-		+e.wrap#area
+		+e.wrap.js-area
 			- for (var i = 0; i <= 15; i++)
 				+e.item(
 					id= '#{i + 1}'
 					class= i===15 ? '_empty' : ''
 					data-val= i + 1
-				)
+				).js-item
 					- if (i !== 15)
 						| #{i + 1}
 
 		+e.blocking
-

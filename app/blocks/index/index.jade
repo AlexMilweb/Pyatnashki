@@ -3,10 +3,13 @@ include ../button/button
 
 mixin index()
 	+b.index
-		+e.game-info ПЯТНАШКИ v0.2 preAlfa
+		+e.game-info ПЯТНАШКИ v0.3a
 		+area()
 		+e.options
 			+button({
 				id: 'startGame',
 				text: 'Start Game'
-			})
+			}).js-start-game
+			+e.wraper
+				+e.timer.js-timer 00:00
+				+e.counter.js-counter 0
