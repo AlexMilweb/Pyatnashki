@@ -2,9 +2,11 @@
 import './polyfills';
 import bindEvent from './util/event/bindEvent';
 
-// Модули
+// Селекторы и стейт
 import globalState from './globalState';
 import selectors from './selectors';
+
+// Модули
 import createRandomArr from './modules/createRandomArr';
 import matrixGen from './modules/matrixGen';
 import getValuesAroundEmpty from './modules/getValuesAroundEmpty';
@@ -16,12 +18,14 @@ import areaGenerate from './modules/areaGenerate';
 import resetGameArea from './modules/resetGameArea';
 import viewCounter from './modules/viewCounter';
 import addTimer from './modules/addTimer';
+import arrCompare from './modules/arrCompare';
 
 // Селекторы
 const allItemArea = document.querySelectorAll(selectors.itemArea);
 const area = document.querySelector(selectors.area);
 const counter = document.querySelector(selectors.counter);
 const timer = document.querySelector(selectors.timer);
+const cap = document.querySelector(selectors.cap);
 
 // Функции
 const gameProcessEvent = item => {
@@ -35,6 +39,12 @@ const gameProcessEvent = item => {
 	addActiveItems(items, selectors.activeItem);
 
 	globalState.counter = viewCounter(counter, globalState.counter);
+	const isWin = arrCompare(globalState.matrix, globalState.matrixValidate);
+	console.log(isWin)
+
+	if (isWin) {
+		clearInterval(globalState.timeId);
+	}
 };
 
 const gameProcess = matrix => {
@@ -61,6 +71,7 @@ const startLogic = () => {
 	clearInterval(globalState.timeId);
 
 	globalState.timeId = addTimer(timer, globalState.time);
+	cap.classList.add(selectors.capOff);
 };
 
 // События
