@@ -8,6 +8,7 @@ const selectors = {
 	startGame: '.js-start-game',
 	itemArea: '.js-item',
 	counter: '.js-counter',
+	timer: '.js-timer',
 	empty: 'area__item_empty',
 	activeItem: 'area__item_active'
 };
@@ -16,6 +17,7 @@ const selectors = {
 const allItemArea = document.querySelectorAll(selectors.itemArea);
 const area = document.querySelector(selectors.area);
 const counter = document.querySelector(selectors.counter);
+const timer = document.querySelector(selectors.timer);
 
 // functions
 const random = (min, max) => {
@@ -174,7 +176,9 @@ const resetGameArea = (emptySelector, selectorItem) => {
 
 const globalState = {
 	matrix: [],
-	counter: 0
+	counter: 0,
+	time: '00:00',
+	timeId: undefined
 };
 
 const viewCounter = (selector, number) => {
@@ -182,6 +186,32 @@ const viewCounter = (selector, number) => {
 
 	selector.innerHTML = addStep;
 	return addStep;
+};
+
+const addTimer = selector => {
+	const timerId = setInterval(() => {
+		const timeArr = globalState.time.split(':');
+		const min = Number(timeArr[0]);
+		const sec = Number(timeArr[1]);
+
+		if (sec !== 59) {
+			timeArr[1] = sec + 1;
+		} else {
+			timeArr[1] = 0;
+			timeArr[0] = min + 1;
+			if (timeArr[0] < 10) {
+				timeArr[0] = '0' + timeArr[0];
+			}
+		}
+
+		if (timeArr[1] < 10) {
+			timeArr[1] = '0' + timeArr[1];
+		}
+		const timeStr = timeArr.join(':');
+		selector.innerHTML = timeStr;
+		globalState.time = timeStr;
+	}, 1000);
+	return timerId;
 };
 
 const gameProcessEvent = item => {
@@ -200,7 +230,6 @@ const gameProcessEvent = item => {
 const gameProcess = matrix => {
 	const activeItems = getValuesAroundEmpty(matrix);
 	addActiveItems(activeItems, selectors.activeItem);
-	globalState.counter = 0;
 
 	area.removeEventListener('click', gameProcessEvent);
 	area.addEventListener('click', gameProcessEvent);
@@ -210,11 +239,18 @@ const gameProcess = matrix => {
 const startLogic = () => {
 	const areaArr = createRandomArr(15);
 	const matrix = matrixGen(4, 4, areaArr);
+
+	globalState.counter = 0;
+	globalState.time = '00:00';
+	globalState.matrix = matrix;
+
+	viewCounter(counter, -1);
 	areaGenerate(allItemArea, areaArr);
 	resetGameArea(selectors.empty, selectors.itemArea);
 	gameProcess(matrix);
+	clearInterval(globalState.timeId);
 
-	globalState.matrix = matrix;
+	globalState.timeId = addTimer(timer, globalState.time);
 };
 
 // События
