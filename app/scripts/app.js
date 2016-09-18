@@ -27,6 +27,9 @@ const counter = document.querySelector(selectors.counter);
 const timer = document.querySelector(selectors.timer);
 const cap = document.querySelector(selectors.cap);
 const userInput = document.querySelector(selectors.userInput);
+const winName = document.querySelector(selectors.winName);
+const winTime = document.querySelector(selectors.winTime);
+const winStep = document.querySelector(selectors.winStep);
 
 // Функции
 const gameProcessEvent = item => {
@@ -44,6 +47,12 @@ const gameProcessEvent = item => {
 
 	if (isWin) {
 		clearInterval(globalState.timeId);
+		cap.classList.remove(selectors.capOff);
+		cap.classList.add(selectors.capWin);
+
+		winName.innerHTML = globalState.user;
+		winStep.innerHTML = globalState.counter;
+		winTime.innerHTML = globalState.time;
 	}
 };
 
@@ -56,6 +65,7 @@ const gameProcess = matrix => {
 };
 
 const addUser = () => {
+	cap.classList.remove(selectors.capWin);
 	cap.classList.add(selectors.capUser);
 };
 

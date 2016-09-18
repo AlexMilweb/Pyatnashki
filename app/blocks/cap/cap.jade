@@ -8,3 +8,12 @@ mixin cap()
 				id: 'addUser',
 				text: 'Добавить'
 			}).js-user-button
+
+		+e.win
+			+e.win-answer Победа!
+			+e.name Имя победителя:
+				span.js-win-name
+			+e.step Количество ходов:
+				span.js-win-step
+			+e.time Время игры:
+				span.js-win-time

@@ -39,6 +39,13 @@
 		visibility hidden
 		transition opacity .3s, visibility .3s
 
+	&__win
+		position absolute
+		width 100%
+		opacity 0
+		visibility hidden
+		transition opacity .3s, visibility .3s
+
 	&__add-user
 		width 100px
 		height 40px
@@ -63,6 +70,25 @@
 		&_wrong
 			box-shadow 0 0 5px 2px red inset
 
+	&__win-answer
+		margin-bottom 20px
+		font-size 40px
+		color white
+		text-align center
+
+	&__name
+	&__step
+	&__time
+		position relative
+		margin-bottom 10px
+		padding-left 70px
+		font-size 18px
+		color white
+
+		span
+			position absolute
+			right 70px
+
 	&_off
 		animation-name capOff
 		animation-duration 2s
@@ -70,6 +96,15 @@
 
 	&_user
 		& ^[0]__user
+			opacity 1
+			visibility visible
+
+		&:before
+			opacity 0
+			visibility hidden
+
+	&_win
+		& ^[0]__win
 			opacity 1
 			visibility visible
 
