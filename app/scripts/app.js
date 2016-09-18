@@ -26,6 +26,7 @@ const area = document.querySelector(selectors.area);
 const counter = document.querySelector(selectors.counter);
 const timer = document.querySelector(selectors.timer);
 const cap = document.querySelector(selectors.cap);
+const userInput = document.querySelector(selectors.userInput);
 
 // Функции
 const gameProcessEvent = item => {
@@ -40,7 +41,6 @@ const gameProcessEvent = item => {
 
 	globalState.counter = viewCounter(counter, globalState.counter);
 	const isWin = arrCompare(globalState.matrix, globalState.matrixValidate);
-	console.log(isWin)
 
 	if (isWin) {
 		clearInterval(globalState.timeId);
@@ -53,6 +53,10 @@ const gameProcess = matrix => {
 
 	area.removeEventListener('click', gameProcessEvent);
 	area.addEventListener('click', gameProcessEvent);
+};
+
+const addUser = () => {
+	cap.classList.add(selectors.capUser);
 };
 
 // Запуск игровой логики при клике на кнопку "Start Game"
@@ -71,11 +75,29 @@ const startLogic = () => {
 	clearInterval(globalState.timeId);
 
 	globalState.timeId = addTimer(timer, globalState.time);
+	cap.classList.remove(selectors.capUser);
 	cap.classList.add(selectors.capOff);
 };
 
+const userValidate = () => {
+	const val = userInput.value;
+	const valLen = val.length;
+
+	if (valLen >= 3 && valLen <= 12) {
+		globalState.user = val;
+		startLogic();
+	} else {
+		userInput.classList.add(selectors.inputWrong);
+		setTimeout(() => {
+			userInput.classList.remove(selectors.inputWrong);
+		}, 300);
+	}
+};
+
 // События
-const onClickStartGame = () => bindEvent(selectors.startGame, 'click', startLogic);
+const onClickStartGame = () => bindEvent(selectors.startGame, 'click', addUser);
+const onClickUserAdd = () => bindEvent(selectors.userButton, 'click', userValidate);
 
 // Инициализация событий
 onClickStartGame();
+onClickUserAdd();

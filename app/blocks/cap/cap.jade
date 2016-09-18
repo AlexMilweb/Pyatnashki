@@ -1,2 +1,10 @@
+include ../button/button
+
 mixin cap()
 	+b.cap.js-cap&attributes(attributes)
+		+e.user
+			+e('input').input(value='' placeholder='Введите имя').js-user-input
+			+button({
+				id: 'addUser',
+				text: 'Добавить'
+			}).js-user-button
